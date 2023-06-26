@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.guiLabs.MyBooksApi.Entities.Author;
 import com.guiLabs.MyBooksApi.Entities.Book;
@@ -88,5 +89,28 @@ public class BookServiceImpl implements BookService {
 		}
 		return false;
 		
+	}
+
+	@Override
+	public Book patchBookById(Integer bookId, Book book) {
+		AtomicReference<Book> atomicReference = new AtomicReference<>();
+		
+		bookRepository.findById(bookId).ifPresentOrElse(foundBook ->{
+			if(StringUtils.hasText(book.getTitle())) {
+				foundBook.setTitle(book.getTitle());
+			}
+			if (book.getGenre() != null) {
+				foundBook.setGenre(book.getGenre());
+			}
+			if(book.getAuthors().size() > 0 ) {
+				saveAuthors(book);
+				foundBook.setAuthors(book.getAuthors());
+			}
+			atomicReference.set(bookRepository.save(foundBook));
+		}, () ->{
+			atomicReference.set(null);
+		});
+		
+		return atomicReference.get();
 	}
 }
