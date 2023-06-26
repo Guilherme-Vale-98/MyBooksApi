@@ -9,4 +9,5 @@ public interface BookService{
 	Book getBookById(Integer Id);
 	Book saveNewBook(Book book);
 	Book updateByBookId(Integer bookId, Book book);
+	Boolean deleteByBookId(Integer bookId);
 }

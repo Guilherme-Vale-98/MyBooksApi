@@ -2,6 +2,7 @@ package com.guiLabs.MyBooksApi.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public Book getBookById(Integer Id) {
-		Book book = bookRepository.findById(Id).orElseThrow(NotFoundException::new);
+	public Book getBookById(Integer bookId) {
+		Book book = bookRepository.findById(bookId).orElseThrow(NotFoundException::new);
 		return book;
 	}
 
@@ -77,5 +78,15 @@ public class BookServiceImpl implements BookService {
 		});
 		
 		return atomicReference.get();
+	}
+
+	@Override
+	public Boolean deleteByBookId(Integer bookId) {
+		if (bookRepository.existsById(bookId)) {
+			bookRepository.deleteById(bookId);
+			return true;
+		}
+		return false;
+		
 	}
 }
