@@ -4,8 +4,6 @@ package com.guiLabs.MyBooksApi.Entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import com.guiLabs.MyBooksApi.model.BookGenre;
 
 import jakarta.persistence.Entity;
@@ -18,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
